@@ -40,7 +40,6 @@ const Login: React.FC = () => {
       {!isLoggedIn ? (
         <Card title="Login" type="inner">
           <form onSubmit={handleSubmit}>
-            <pre>{JSON.stringify(email, null, 2)}</pre>
             <div className={styles.margin}>
               <Input
                 name="email"
@@ -64,13 +63,19 @@ const Login: React.FC = () => {
               size="large"
               htmlType="submit"
               type="primary"
+              className={styles.fullWidth}
             >
               Login
             </Button>
           </form>
         </Card>
       ) : (
-        <Button size="large" onClick={() => setIsLoggedIn(false)} type="primary">
+        <Button
+          className={styles.fullWidth}
+          size="large"
+          onClick={() => setIsLoggedIn(false)}
+          type="primary"
+        >
           Logout
         </Button>
       )}
