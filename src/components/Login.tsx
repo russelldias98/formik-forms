@@ -7,47 +7,73 @@ const { Password } = Input;
 const { Title } = Typography;
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState({ value: '', error: false, touched: false });
+  const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoggedIn(true);
+    setEmail({ value: '', error: false, touched: false });
   };
 
   const onChangeInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name);
-    setEmail(e.target.value);
+    setEmail({
+      ...email,
+      value: e.target.value,
+      error: ValidateEmail(e.target.value),
+      touched: true,
+    });
   };
 
   const onChangeInputPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name);
     setPassword(e.target.value);
   };
+
+  function ValidateEmail(mail: string) {
+    return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail);
+  }
 
   return (
     <div className={styles.container}>
       <Title>Forms with ReactJS</Title>
-      <Card title="Login" type="inner">
-        <form onSubmit={handleSubmit}>
-          <Input
-            name="email"
-            size="large"
-            value={email}
-            onChange={onChangeInputEmail}
-            placeholder="Add your email"
-          />
-          <Password
-            name="password"
-            size="large"
-            value={password}
-            onChange={onChangeInputPassword}
-            placeholder="Add your password"
-          />
-          <Button size="large" htmlType="submit" type="primary">
-            Login
-          </Button>
-        </form>
-      </Card>
+      {!isLoggedIn ? (
+        <Card title="Login" type="inner">
+          <form onSubmit={handleSubmit}>
+            <pre>{JSON.stringify(email, null, 2)}</pre>
+            <div className={styles.margin}>
+              <Input
+                name="email"
+                size="large"
+                value={email.value}
+                onChange={onChangeInputEmail}
+                placeholder="Add your email"
+              />
+              {!email.touched && email.error && 'Opps.. invalid email'}
+            </div>
+            <Password
+              name="password"
+              size="large"
+              value={password}
+              onChange={onChangeInputPassword}
+              placeholder="Add your password"
+              className={styles.margin}
+            />
+            <Button
+              disabled={!email.touched || !email.error}
+              size="large"
+              htmlType="submit"
+              type="primary"
+            >
+              Login
+            </Button>
+          </form>
+        </Card>
+      ) : (
+        <Button size="large" onClick={() => setIsLoggedIn(false)} type="primary">
+          Logout
+        </Button>
+      )}
     </div>
   );
 };
