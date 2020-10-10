@@ -4,6 +4,7 @@ import { Button, Input, Typography, Card } from 'antd';
 import { Formik, Form, FormikHelpers, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { act } from 'react-dom/test-utils';
+import InputLabelFormik from './InputLabelFormik';
 
 const { Password } = Input;
 
@@ -51,26 +52,23 @@ const Login: React.FC = () => {
               <pre>{JSON.stringify({ isLoggedIn }, null, 2)}</pre>
               {!isLoggedIn ? (
                 <>
-                  <Input
-                    className={styles.margin}
-                    size="large"
+                  <InputLabelFormik
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    nameFormik="email"
                     value={values.email}
-                    name="email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Add your email"
+                    label="Email*"
+                    placeholder="Enter your email"
                   />
-                  <ErrorMessage name="email">{(msg) => <p>{msg}</p>}</ErrorMessage>
-                  <Password
-                    className={styles.margin}
-                    size="large"
+                  <InputLabelFormik
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    nameFormik="password"
                     value={values.password}
-                    name="password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Add your password"
+                    label="Password*"
+                    placeholder="Enter your password"
+                    isPassword
                   />
-                  <ErrorMessage name="password">{(msg) => <p>{msg}</p>}</ErrorMessage>
                   <Button
                     disabled={!(isValid && dirty)}
                     size="large"

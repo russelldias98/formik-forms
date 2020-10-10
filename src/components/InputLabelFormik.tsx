@@ -44,6 +44,7 @@ const InputLabelFormik: React.FC<Props> = memo(function InputAndLabel({
           onBlur={handleBlur}
           value={value}
           placeholder={placeholder}
+          size="large"
         />
       ) : (
         <Password
@@ -52,6 +53,7 @@ const InputLabelFormik: React.FC<Props> = memo(function InputAndLabel({
           onBlur={handleBlur}
           value={value}
           placeholder={placeholder}
+          size="large"
         />
       )}
     </div>
